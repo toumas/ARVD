@@ -2,8 +2,8 @@
 
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
-
 import {
+  ViroAnimations,
   ViroARScene,
   ViroText,
   ViroConstants,
@@ -69,6 +69,7 @@ export default class HelloWorldSceneAR extends Component {
             position={[0, 0, -1]}
             scale={[0.2, 0.2, 0.2]}
             type='OBJ'
+            animation={{name: 'beat', run: true, loop: true}}
           />
         )}
       </ViroARScene>
@@ -86,4 +87,26 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = HelloWorldSceneAR;
+const duration = 483.870967742;
+
+ViroAnimations.registerAnimations({
+  grow: {
+    properties: {
+      scaleX: '+=0.05',
+      scaleY: '+=0.05',
+      scaleZ: '+=0.05',
+    },
+    easing: 'Bounce',
+    duration: duration,
+  },
+  shrink: {
+    properties: {
+      scaleX: '-=0.05',
+      scaleY: '-=0.05',
+      scaleZ: '-=0.05',
+    },
+    easing: 'Bounce',
+    duration: duration,
+  },
+  beat: [['grow', 'shrink']],
+});
