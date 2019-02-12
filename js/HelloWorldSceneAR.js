@@ -11,9 +11,11 @@ import {
   ViroSpotLight,
   Viro3DObject,
   ViroSpatialSound,
+  ViroARPlaneSelector,
 } from 'react-viro';
 
 export default class HelloWorldSceneAR extends Component {
+  planeSelectorRef = React.createRef()
   state = {
     text: 'Initializing AR...',
     ready: false,
@@ -38,16 +40,25 @@ export default class HelloWorldSceneAR extends Component {
 
     return (
       <ViroARScene onTrackingUpdated={this.onInitialized}>
-        <ViroSpatialSound
-          loop={true}
-          paused={!ready}
-          muted={muted}
-          minDistance={0}
-          maxDistance={2}
-          rolloffModel='linear'
-          position={[0, 0, -1]}
-          source={require('../res/haddaway_what_is_love.mp3')}
-        />
+        <ViroARPlaneSelector ref={this.planeSelectorRef}>
+          <ViroSpatialSound
+            loop={true}
+            paused={!ready}
+            muted={muted}
+            minDistance={0}
+            maxDistance={2}
+            rolloffModel='linear'
+            position={[0, 0.25, 0]}
+            source={require('../res/haddaway_what_is_love.mp3')}
+          />
+          <Viro3DObject
+            source={require('../res/heart/love_heart.obj')}
+            position={[0, 0, 0]}
+            scale={[0.2, 0.2, 0.2]}
+            type='OBJ'
+            animation={{name: 'beat', run: true, loop: true}}
+          />
+        </ViroARPlaneSelector>
         <ViroText
           text={this.state.text}
           scale={[0.5, 0.5, 0.5]}
@@ -63,15 +74,6 @@ export default class HelloWorldSceneAR extends Component {
           color='#ffffff'
           castsShadow={true}
         />
-        {ready && (
-          <Viro3DObject
-            source={require('../res/heart/love_heart.obj')}
-            position={[0, 0, -1]}
-            scale={[0.2, 0.2, 0.2]}
-            type='OBJ'
-            animation={{name: 'beat', run: true, loop: true}}
-          />
-        )}
       </ViroARScene>
     );
   }
