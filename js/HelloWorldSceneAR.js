@@ -10,6 +10,7 @@ import {
   ViroAmbientLight,
   ViroSpotLight,
   Viro3DObject,
+  ViroSpatialSound,
 } from 'react-viro';
 
 export default class HelloWorldSceneAR extends Component {
@@ -24,8 +25,10 @@ export default class HelloWorldSceneAR extends Component {
         text: '',
         ready: true,
       });
-    } else if (state == ViroConstants.TRACKING_NONE) {
-      // Handle loss of tracking
+    } else if (state == ViroConstants.TRACKING_UNAVAILABLE) {
+      this.setState({
+        ready: false,
+      });
     }
   };
 
@@ -33,6 +36,15 @@ export default class HelloWorldSceneAR extends Component {
     const {ready} = this.state;
     return (
       <ViroARScene onTrackingUpdated={this.onInitialized}>
+        <ViroSpatialSound
+          loop={true}
+          paused={!ready}
+          minDistance={0}
+          maxDistance={2}
+          rolloffModel='linear'
+          position={[0, 0, -1]}
+          source={require('../res/haddaway_what_is_love.mp3')}
+        />
         <ViroText
           text={this.state.text}
           scale={[0.5, 0.5, 0.5]}
