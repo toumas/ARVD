@@ -12,10 +12,11 @@ import {
   Viro3DObject,
   ViroSpatialSound,
   ViroARPlaneSelector,
+  ViroNode,
 } from 'react-viro';
 
 export default class HelloWorldSceneAR extends Component {
-  planeSelectorRef = React.createRef()
+  planeSelectorRef = React.createRef();
   state = {
     text: 'Initializing AR...',
     ready: false,
@@ -41,23 +42,25 @@ export default class HelloWorldSceneAR extends Component {
     return (
       <ViroARScene onTrackingUpdated={this.onInitialized}>
         <ViroARPlaneSelector ref={this.planeSelectorRef}>
-          <ViroSpatialSound
-            loop={true}
-            paused={!ready}
-            muted={muted}
-            minDistance={0}
-            maxDistance={2}
-            rolloffModel='linear'
-            position={[0, 0.25, 0]}
-            source={require('../res/haddaway_what_is_love.mp3')}
-          />
-          <Viro3DObject
-            source={require('../res/heart/love_heart.obj')}
-            position={[0, 0, 0]}
-            scale={[0.2, 0.2, 0.2]}
-            type='OBJ'
-            animation={{name: 'beat', run: true, loop: true}}
-          />
+          <ViroNode>
+            <ViroSpatialSound
+              loop={true}
+              paused={!ready}
+              muted={muted}
+              minDistance={0}
+              maxDistance={2}
+              rolloffModel='linear'
+              position={[0, 0.25, 0]}
+              source={require('../res/haddaway_what_is_love.mp3')}
+            />
+            <Viro3DObject
+              source={require('../res/heart/love_heart.obj')}
+              position={[0, 0, 0]}
+              scale={[0.2, 0.2, 0.2]}
+              type='OBJ'
+              animation={{name: 'beat', run: true, loop: true}}
+            />
+          </ViroNode>
         </ViroARPlaneSelector>
         <ViroText
           text={this.state.text}
