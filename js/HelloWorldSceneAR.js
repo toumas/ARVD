@@ -34,11 +34,14 @@ export default class HelloWorldSceneAR extends Component {
 
   render() {
     const {ready} = this.state;
+    const {arSceneNavigator: {viroAppProps: {muted}}} = this.props;
+
     return (
       <ViroARScene onTrackingUpdated={this.onInitialized}>
         <ViroSpatialSound
           loop={true}
           paused={!ready}
+          muted={muted}
           minDistance={0}
           maxDistance={2}
           rolloffModel='linear'
